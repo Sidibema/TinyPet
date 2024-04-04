@@ -8,7 +8,7 @@ Ce projet a été réalisé par SIDIBE MARIAM ET NAJEM ALAA.
 
 
 ## Les liens
-Lien vers l'application :
+Lien vers l'application :https://projetcloudfinal-417911.ew.r.appspot.com/#!/
 
 
 # DataStore:
@@ -52,20 +52,7 @@ En utilisant l'icône de recherche, il est possible d'effectuer une recherche de
 ## Aperçu de l’application
 </br>
 <li>Page d'accueil / Les pétitions récentes / Les pétitions plus signées</li></br>
-<img width="1437" alt="Page d'accueil" src="https://user-images.githubusercontent.com/76114615/117511803-a7c73800-af8e-11eb-84a3-42d7d84ded04.png">
-
-</br>
-<li>Création d'une pétition</li></br>
-<img width="1437" alt="Création" src="https://user-images.githubusercontent.com/76114615/117511771-9da53980-af8e-11eb-9bbd-415903c76a0d.png">
-
-</br>
-<li>Rechercher une pétition en fonction du titre/tag</li></br>
-<img width="1420" alt="Rechercher une pétition" src="https://user-images.githubusercontent.com/76114615/117511931-e826b600-af8e-11eb-8cb1-ca0eabc1fb37.png">
-
-</br>
-<li>Mes pétitions créées/signées</li></br>
-<img width="1301" alt="Mes petition" src="https://user-images.githubusercontent.com/76114615/117514834-13ac9f00-af95-11eb-8784-1520e9c6b110.png">
-
+<img width="1437" alt="Page d'accueil" src="">
 
 ## Conclusion
 
