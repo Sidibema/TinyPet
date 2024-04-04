@@ -12,10 +12,9 @@ Lien vers l'application :
 
 
 # DataStore:
-![alt text](image-1.png)
 
 
-![alt text](image-2.png)
+
 ## Fonctionnalités réalisées
 
 Voici des fonctionnalités qu’on a réalisées :
