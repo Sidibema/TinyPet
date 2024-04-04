@@ -12,7 +12,8 @@ Lien vers l'application :
 
 
 # DataStore:
-ds1.png
+<img width="1437" alt="Page d'accueil" src="https://user-images.githubusercontent.com/ds1.png">
+
 
 ds2.png
 
