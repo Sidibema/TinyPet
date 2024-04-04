@@ -4,8 +4,8 @@
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <groupId>momo54</groupId>
-  <artifactId>WebAndCloud</artifactId>
+  <groupId>mariamAlaa</groupId>
+  <artifactId>TinyPetProjet</artifactId>
 
   <parent>
     <groupId>com.google.cloud.samples</groupId>
