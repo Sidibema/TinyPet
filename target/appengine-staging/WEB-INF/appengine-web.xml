@@ -3,7 +3,8 @@
 
   <threadsafe>false</threadsafe>
   <sessions-enabled>true</sessions-enabled>
-  <runtime>java8</runtime>
+   <app-engine-apis>true</app-engine-apis>
+  <runtime>java17</runtime>
 
    <static-files>
     <include path="/**.html" >
@@ -26,7 +27,7 @@
   </system-properties>
 <!-- [START env_variables] -->
     <env-variables>
-<!--         <env-var name="ENDPOINTS_SERVICE_NAME" value="sobike44.appspot.com" /> -->
+<!--         <env-var name="ENDPOINTS_SERVICE_NAME" value="projetcloudfinal-417911.appspot.com" /> -->
         <env-var name="ENDPOINTS_SERVICE_NAME" value="tinypetvimaox.appspot.com" />
 
     </env-variables>

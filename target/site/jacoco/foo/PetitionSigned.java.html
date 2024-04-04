@@ -48,7 +48,7 @@ import com.google.appengine.repackaged.com.google.datastore.v1.PropertyFilter;
 
 <span class="nc" id="L49">	Query q = new Query(&quot;Petition&quot;)</span>
 <span class="nc" id="L50">			.setFilter(</span>
-<span class="nc" id="L51">					new FilterPredicate(&quot;signataire&quot;, FilterOperator.EQUAL, &quot;id8_6&quot;)</span>
+					new FilterPredicate(&quot;signataire&quot;, FilterOperator.EQUAL, &quot;id8_6&quot;)
 					); //.addSort(&quot;date&quot;, SortDirection.ASCENDING)
 	
 <span class="nc" id="L54">	q.setKeysOnly();</span>
@@ -64,7 +64,7 @@ import com.google.appengine.repackaged.com.google.datastore.v1.PropertyFilter;
 <span class="nc bnc" id="L64" title="All 2 branches missed.">	for (Entity entity : result) {</span>
 <span class="nc" id="L65">		response.getWriter().print(&quot;&lt;li&gt;&quot; + entity.getKey()+ &quot;&lt;br&gt;&quot; );</span>
 		
-	}
+<span class="nc" id="L67">	}</span>
 
 	
 <span class="nc" id="L70">	long t2=System.currentTimeMillis();</span>
@@ -75,4 +75,4 @@ import com.google.appengine.repackaged.com.google.datastore.v1.PropertyFilter;
 
 <span class="nc" id="L76">	}</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -40,6 +40,7 @@ public class PetitionInit extends HttpServlet {
 		String id_user, name_tag;
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "https://projetcloudfinal-417911.ew.r.appspot.com");
 
 		Random r = new Random();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -76,24 +77,7 @@ public class PetitionInit extends HttpServlet {
 					p.setProperty("update_at", dateValue);
 					p.setProperty("proprietaire",  userId);
 					
-					
-					// Create signature
-					/*
-					HashSet<String> listSignataire = new HashSet<String>();
-					
-					int nbMaxSignataire = r.nextInt(500);
-					int nbSignataire = 0;
-					while (listSignataire.size() < nbMaxSignataire) {
-						id_user = r.nextInt(50) + "_" + r.nextInt(10);
-						if (!listSignataire.contains(id_user)) {
-						listSignataire.add(id_user);
-						nbSignataire++;
-						response.getWriter().print("<li> signature created: " + id_user + "<br>");
-						}
-					}
-					
-					p.setProperty("signataire", listSignataire);
-					*/
+	
 					int nbMaxSignataire = r.nextInt(400);
 					int nbSignataire = 0;
 					while (nbSignataire < nbMaxSignataire) {

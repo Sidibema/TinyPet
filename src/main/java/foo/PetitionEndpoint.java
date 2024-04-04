@@ -155,6 +155,7 @@ public class PetitionEndpoint {
 	
 	@ApiMethod(name = "addPetition", path="petition/add", httpMethod = ApiMethod.HttpMethod.POST)
 	public Entity addPetition(PetitionItem pi) {
+      //  pi.tag_string ="bonjour;salut";
 		Random r = new Random();
 		int k = r.nextInt(50000);
 		Date date_creation = new Date();
@@ -166,6 +167,9 @@ public class PetitionEndpoint {
 		e.setProperty("theme", pi.theme);
 		e.setProperty("titre", pi.titre);
 		e.setProperty("description", pi.description);
+
+        e.setProperty("Id", pi.ID);
+
 		
 		e.setProperty("date", mediumDateFormat.format(date_creation));
 		e.setProperty("update_at",mediumDateFormat.format(date_creation));
@@ -174,24 +178,28 @@ public class PetitionEndpoint {
 		e.setProperty("objectifSignataire", pi.objectifSignataire);
 		e.setProperty("img_url", pi.img_url);
 		
-		HashSet<String> listTag = new HashSet<String>();
-		String [] tags = pi.tag_string.split(";");
-		String tagString="";
-		int nbTag =0;
-		for (String  tag: tags) {
-			nbTag++;
-			if(tag.length()>0) {
-				listTag.add(tag);
-				tagString +=tag+";";
-			}
-			if(nbTag==10) {
-				break; //on limite à 10 tag par petition
-			}
-			
-		}
-		
-		e.setProperty("tag", listTag);
-		e.setProperty("tag_string", tagString);
+        if(pi.tag_string != null){
+
+            HashSet<String> listTag = new HashSet<String>();
+            String [] tags = pi.tag_string.split(";");
+            String tagString="";
+            int nbTag =0;
+            for (String  tag: tags) {
+                nbTag++;
+                if(tag.length()>0) {
+                    listTag.add(tag);
+                    tagString +=tag+";";
+                }
+                if(nbTag==10) {
+                    break; //on limite à 10 tag par petition
+                }
+                
+            }
+            
+            e.setProperty("tag", listTag);
+            e.setProperty("tag_string", tagString);
+        }
+	
 		
 		//e.setProperty("tag", pi.tag);
 		
@@ -216,25 +224,32 @@ public class PetitionEndpoint {
 		e.setProperty("update_at", mediumDateFormat.format(date_update));
 		e.setProperty("objectifSignataire", pi.objectifSignataire);
 		e.setProperty("img_url", pi.img_url);
-		
-		HashSet<String> listTag = new HashSet<String>();
-		String [] tags = pi.tag_string.split(";");
-		String tagString="";
-		int nbTag =0;
-		for (String  tag: tags) {
-			nbTag++;
-			if(tag.length()>0) {
-				listTag.add(tag);
-				tagString +=tag+";";
-			}
-			if(nbTag==10) {
-				break; //on limite à 10 tag par petition
-			}
-			
-		}
-		
-		e.setProperty("tag", listTag);
-		e.setProperty("tag_string", tagString);
+		if(pi.tag_string !=null){
+            HashSet<String> listTag = new HashSet<String>();
+            String [] tags = pi.tag_string.split(";");
+            String tagString="";
+            int nbTag =0;
+            for (String  tag: tags) {
+                nbTag++;
+                if(tag.length()>0) {
+                    listTag.add(tag);
+                    tagString +=tag+";";
+                }
+                if(nbTag==10) {
+                    break; //on limite à 10 tag par petition
+                }
+                
+            }
+            
+            e.setProperty("tag", listTag);
+            e.setProperty("tag_string", tagString);
+
+        }else {
+            e.setProperty("tag", null);
+            e.setProperty("tag_string", null);
+
+        }
+	
 		
 		
 		//Transaction txn = datastore.beginTransaction();
@@ -369,14 +384,7 @@ public class PetitionEndpoint {
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query q = new Query("Petition");
-		//q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-		/*q.addProjection(new PropertyProjection("titre", String.class));
-		q.addProjection(new PropertyProjection("proprietaire", String.class));
-		q.addProjection(new PropertyProjection("description", String.class));
-		q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-		q.addProjection(new PropertyProjection("objectifSignataire", Integer.class));
-		q.addProjection(new PropertyProjection("img_url", String.class));
-		*/
+	
 		
 		if (last.equals("0")) {
 			q.setFilter(new FilterPredicate("proprietaire", FilterOperator.EQUAL, userID));
@@ -440,13 +448,7 @@ public class PetitionEndpoint {
 	    }
 	    if(keys.size() > 0) {
 		    q = new Query("Petition").setFilter(new FilterPredicate("__key__", FilterOperator.IN, keys));
-		    /*q.addProjection(new PropertyProjection("titre", String.class));
-			q.addProjection(new PropertyProjection("proprietaire", String.class));
-			q.addProjection(new PropertyProjection("description", String.class));
-			q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-			q.addProjection(new PropertyProjection("objectifSignataire", Integer.class));
-			q.addProjection(new PropertyProjection("img_url", String.class));
-			*/
+		 
 			if (!last.equals("0")) {
 				
 				Key petitionKey = new Entity("Petition", last).getKey();
@@ -505,14 +507,7 @@ public class PetitionEndpoint {
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query q = new Query("Petition");
-		//q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-		/*q.addProjection(new PropertyProjection("titre", String.class));
-		q.addProjection(new PropertyProjection("proprietaire", String.class));
-		q.addProjection(new PropertyProjection("description", String.class));
-		q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-		q.addProjection(new PropertyProjection("objectifSignataire", Integer.class));
-		q.addProjection(new PropertyProjection("img_url", String.class));
-		*/
+
 		
 		if (last.equals("0")) {
 			q.setFilter(new FilterPredicate("tag", FilterOperator.EQUAL, tag));
@@ -540,14 +535,7 @@ public class PetitionEndpoint {
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query q = new Query("Petition");
-		//q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-		/*q.addProjection(new PropertyProjection("titre", String.class));
-		q.addProjection(new PropertyProjection("proprietaire", String.class));
-		q.addProjection(new PropertyProjection("description", String.class));
-		q.addProjection(new PropertyProjection("nbSignataire", Integer.class));
-		q.addProjection(new PropertyProjection("objectifSignataire", Integer.class));
-		q.addProjection(new PropertyProjection("img_url", String.class));
-		*/
+		
 		
 		if (last.equals("0")) {
 			q.setFilter(new FilterPredicate("titre", FilterOperator.GREATER_THAN_OR_EQUAL, titre));
@@ -569,52 +557,6 @@ public class PetitionEndpoint {
 	
 	}	
 	
-	/*
 
-	
-	@ApiMethod(name = "myPetitionSigned",path="myPetitionSigned/{userID}/{next}", httpMethod = ApiMethod.HttpMethod.GET)
-	public CollectionResponse<Entity> myPetitionSigned(@Named("userID") String userID, @Nullable @Named("next") String cursorString) {
-
-	    Query q = new Query("Petition").setFilter(new FilterPredicate("signataire", FilterOperator.EQUAL, userID));
-	    
-	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	    PreparedQuery pq = datastore.prepare(q);
-	    
-	    FetchOptions fetchOptions = FetchOptions.Builder.withLimit(10);
-	    
-	    if (cursorString != null) {
-		fetchOptions.startCursor(Cursor.fromWebSafeString(cursorString));
-		}
-	    
-	    QueryResultList<Entity> results = pq.asQueryResultList(fetchOptions);
-	    cursorString = results.getCursor().toWebSafeString();
-	    
-	    return CollectionResponse.<Entity>builder().setItems(results).setNextPageToken(cursorString).build();
-	    
-	}
-    
-
-	@ApiMethod(name = "myPetitionCreated", httpMethod = HttpMethod.GET, path="myPetitionCreated/{userID}/{next}")
-	public CollectionResponse<Entity> myPetitionCreated(@Named("userID") String userID, @Nullable @Named("next") String cursorString) {
-
-	    Query q = new Query("Petition").setFilter(new FilterPredicate("proprietaire", FilterOperator.EQUAL, userID));
-	    
-	    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	    PreparedQuery pq = datastore.prepare(q);
-	    
-	    FetchOptions fetchOptions = FetchOptions.Builder.withLimit(10);
-	    
-	    if (cursorString != null) {
-		fetchOptions.startCursor(Cursor.fromWebSafeString(cursorString));
-		}
-	    
-	    QueryResultList<Entity> results = pq.asQueryResultList(fetchOptions);
-	    cursorString = results.getCursor().toWebSafeString();
-	    
-	    return CollectionResponse.<Entity>builder().setItems(results).setNextPageToken(cursorString).build();
-	    
-	}
-
-*/
 	
 }

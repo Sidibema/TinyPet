@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>TinyPet</title>
-<meta name="google-signin-client_id" content="747880885822-070eigg7moicceamhf4guam00bsu2hh1.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="341290679446-irfe3ee6hljh1mngpr2vsiadjep34v0b.apps.googleusercontent.com">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -30,8 +30,8 @@
  .m-0{
  margin: 0px !important}
  .is-active a{
-     border-bottom-color: #00d1b2!important;
-    color: #00d1b2!important;
+     border-bottom-color: #F9BC28!important;
+    color: #F9BC28!important;
     font-weight: 500;}
  .p-30 {
      padding: 30px;
@@ -49,7 +49,7 @@
     height: 250px;
         background: #adadad;}
   .link {
-    color: #00d1b2!important;
+    color: #F9BC28!important;
     font-weight: 500;
     }
   .truncate {
@@ -65,7 +65,7 @@
  }
  a.navbar-item.is-active,a.navbar-item:hover,a.navbar-item:active{
  background: #fafafa!important;
-    color: #00d1b2!important;
+    color: #F9BC28!important;
  }
  .pagination {
     justify-content: center;
@@ -123,7 +123,7 @@ display:none!important}
  	position: fixed!important;
     z-index: 30;
     width: 640px;
-    background-color: #00d1b2!important;
+    background-color: #F9BC28!important;
     border-color: transparent;
     text-align:center!important}
     form header p {
@@ -162,18 +162,18 @@ display:none!important}
     .mt-8{
     margin-top:8px}
     .link.dark{
-    color:black!important}
+    color:#fcfcfc!important}
     .search .control{
     padding-left: 165px;
         width: auto!important;}
     .search li span{
     margin:0!important;}
     .search li.is-active a{
-    background-color:  #00d1b2!important;
-    border-color:  #00d1b2!important;
+    background-color:  #F9BC28!important;
+    border-color:  #F9BC28!important;
     }
     .search li.is-active span{
-    color: #fff!important;
+    color: #2b2b2b!important;
     font-weight:500}
     .g-signin2{
     margin-bottom:10px}
@@ -194,7 +194,7 @@ var userConnecter = {
 		prenom : "",
 };
 var currentURL = "/";
-var hostApi = "https://cloud-project-302112.appspot.com/_ah/api/myApi/v1";
+var hostApi = "https://projetcloudfinal-417911.ew.r.appspot.com/_ah/api/myApi/v1";
 var notification = {
 		message: "",
 		close: true,
@@ -289,22 +289,42 @@ function onSignIn(googleUser) {
 	  console.log('prenom: ' + profile.getGivenName());
 	  document.getElementById("login_google").classList.add('hide');
 	  document.getElementById("logout_google").classList.remove('hide');
+      var logoutUrl = '/index5_';
+    window.location.href = logoutUrl;
 	  //startNotification("Bienvenue, ");
 	  console.log(userConnecter);B
 	  //console.log('Image URL: ' + profile.getImageUrl());
 	  //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 	}
+// function signOut() {
+//   var auth2 = gapi.auth2.getAuthInstance();
+//   auth2.signOut().then(function () {
+// 	  userConnecter.id = null;
+// 	  userConnecter.prenom = "";
+// 	  document.getElementById("login_google").classList.remove('hide');
+// 	  document.getElementById("logout_google").classList.add('hide');
+// 	  //startNotification('Vous êtes deconnecté',"is-primary","notification");
+//    // console.log('Vous êtes deconnecté');
+//   });
+// }
+
 function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-	  userConnecter.id = null;
-	  userConnecter.prenom = "";
-	  document.getElementById("login_google").classList.remove('hide');
-	  document.getElementById("logout_google").classList.add('hide');
-	  //startNotification('Vous êtes deconnecté',"is-primary","notification");
-   // console.log('Vous êtes deconnecté');
-  });
+    // Supprimez les données de session utilisateur ou les cookies ici
+    userConnecter.id = null;
+    userConnecter.prenom = "";
+    document.getElementById("login_google").classList.remove('hide');
+    document.getElementById("logout_google").classList.add('hide');
+
+    // Optionnellement, redirigez l'utilisateur pour le déconnecter de Google
+    // Cela peut être utile si vous avez besoin que l'utilisateur se déconnecte complètement de Google
+    // Notez que cela va rediriger l'utilisateur hors de votre application
+    var logoutUrl = 'https://accounts.google.com/Logout';
+    window.location.href = logoutUrl;
+
+    // Pour une expérience utilisateur améliorée, envisagez de fournir une option
+    // permettant à l'utilisateur de choisir s'il souhaite également se déconnecter de Google
 }
+
 function ShowCreateAndUpdatePetitionView(idItem=null,index=null){
 	if(idItem==null){
 		Api_CrudPetition.item = getPetitionObject();
@@ -827,7 +847,7 @@ var infoPetitionView = {
 					  [
 					    m("div", {"class":"tile is-parent"},
 					      [
-					        m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://www.mesopinions.com/public/img/petition/petition-img-101652-fr.png"}),
+					        m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://france3-regions.francetvinfo.fr/image/dLZAqbKdyjwk7UbXs40zw-c2y9o/1200x675/regions/2022/10/14/63497ac6de5b8_maxnewsworldfive436847.jpg"}),
 					        m("div", {"class":"tile is-child box"},
 					          [
 					            m("p", {"class":"title"}, API_infoPetition.item.titre ),
@@ -901,7 +921,7 @@ var DetailPetitionView = {
 						              [
 						                m("div", {"class":"tile is-parent"},
 						                  [
-						                    m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://www.mesopinions.com/public/img/petition/petition-img-101652-fr.png"}),
+						                    m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://france3-regions.francetvinfo.fr/image/dLZAqbKdyjwk7UbXs40zw-c2y9o/1200x675/regions/2022/10/14/63497ac6de5b8_maxnewsworldfive436847.jpg"}),
 						                    m("div", {"class":"tile is-child box"},
 						                      [
 						                        m("p", {"class":"title"}, API_infoPetition.item.titre),
@@ -1162,7 +1182,7 @@ var CreateAndUpdatePetitionView = {
 var Header = {
 		view : function(){
 			
-			return [m("script", {"src":"https://apis.google.com/js/platform.js","async":"async","defer":"defer"}),
+			return [m("script", {"src":"https://accounts.google.com/gsi/client","async":"async","defer":"defer"}),
 				m("nav", {"class":"navbar is-fixed-top box","role":"navigation","aria-label":"main navigation"},
 					  [
 						    m("div", {"class":"navbar-brand"},
@@ -1184,6 +1204,7 @@ var Header = {
 						                } else{
 						                	ShowCreateAndUpdatePetitionView();
 						                }
+                                       
 						            	
 						            },"class":"navbar-item fw-500"},  " Lancer une petition "),
 						            m(m.route.Link, {href: "/MyPetitionCreated",onclick: function(e) {
@@ -1210,7 +1231,7 @@ var Header = {
 						            			),
 						            	m(m.route.Link, {href: "/SearchPetition",onclick: function(e) {
 							            	currentURL = '/SearchPetition';
-							            }, "class":"button is-primary" }, m("i", {"class":"fas fa-search"})),
+							            }, "class":"search input" }, m("i", {"class":"fas fa-search"})),
 						                m("div", {"id":"login_google","class":"g-signin2","data-onsuccess":"onSignIn"}),
 						                m("a", {"id":"logout_google",class: userConnecter.id==null?"button is-light hide":"button is-light",onclick: function(e) {
 						                	signOut();
@@ -1312,7 +1333,7 @@ var TabSearchPetition = {
 			   	          )
 			   	        ]
 			   	      ),
-			   	      m("div", {"class":"tabs is-toggle is-toggle-rounded"}, 
+			   	      m("div", {"class":"tabs is-toggle-rounded"}, 
 			   	        m("ul",
 			   	          [
 			   	            m("li", {class:API_SearchPetition.type=="tag"?"is-active":""}, 
@@ -1387,7 +1408,7 @@ var cardPetition = {
 			   		  [
 			   		    m("div", {"class":"card-content"},
 			   		      [
-			   		        m("img", {"src":validURL(item.properties.img_url)?item.properties.img_url:"https://www.mesopinions.com/public/img/petition/petition-img-101652-fr.png"}),
+			   		        m("img", {"src":validURL(item.properties.img_url)?item.properties.img_url:"https://france3-regions.francetvinfo.fr/image/dLZAqbKdyjwk7UbXs40zw-c2y9o/1200x675/regions/2022/10/14/63497ac6de5b8_maxnewsworldfive436847.jpg"}),
 			   		        m("p", {"class":"title"}, item.properties.titre),
 			   		        m("p", {"class":"subtitle truncate"}, item.properties.description ),
 			   		        m("progress", {"class":"progress is-success","value":pourcent,"max":"100"}),

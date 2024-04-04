@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <title>TinyPet</title>
-<meta name="google-signin-client_id" content="527621972350-65lbb98ic9cphl4r6bbvesgnsdb280jn.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="341290679446-irfe3ee6hljh1mngpr2vsiadjep34v0b.apps.googleusercontent.com">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+
+
 
 <link href="style.css" rel="stylesheet" media="all" type="text/css"> 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script src="https://unpkg.com/mithril/mithril.js"></script>
-
 
 </head>
 <body class="has-navbar-fixed-top" id="body">
@@ -25,7 +27,7 @@ var userConnecter = {
 		prenom : "",
 };
 var currentURL = "/";
-var hostApi = "https://cloud-project-302112.appspot.com/_ah/api/myApi/v1";
+var hostApi = "https://projetcloudfinal-417911.ew.r.appspot.com/_ah/api/myApi/v1";
 var notification = {
 		message: "",
 		close: true,
@@ -110,32 +112,150 @@ function scrollToTop() {
 	window.scrollTo({top: 0});
 	}
 	
+    
 
-function onSignIn(googleUser) {
-	  var profile = googleUser.getBasicProfile();
-	  userConnecter.id =profile.getId();
-	  userConnecter.prenom = ""+profile.getGivenName();
-	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	  console.log('nom complet: ' + profile.getName());
-	  console.log('prenom: ' + profile.getGivenName());
-	  document.getElementById("login_google").classList.add('hide');
-	  document.getElementById("logout_google").classList.remove('hide');
-	  //startNotification("Bienvenue, ");
-	  console.log(userConnecter);B
-	  //console.log('Image URL: ' + profile.getImageUrl());
-	  //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	}
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-	  userConnecter.id = null;
-	  userConnecter.prenom = "";
-	  document.getElementById("login_google").classList.remove('hide');
-	  document.getElementById("logout_google").classList.add('hide');
-	  //startNotification('Vous êtes deconnecté',"is-primary","notification");
-   // console.log('Vous êtes deconnecté');
-  });
+
+    function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  Profile.name=profile.getName();
+  Profile.email=profile.getEmail();
+  Profile.ID=googleUser.getAuthResponse().id_token;
+  Profile.url=profile.getImageUrl();
+  m.route.set("/secret")
 }
+
+
+
+
+function handleCredentialResponse(response) {
+    console.log("callback called:"+response.credential)
+    // decodeJwtResponse() is a custom function defined by you
+    // to decode the credential response.
+    const responsePayload = jwt_decode(response.credential);
+   userConnecter.id=responsePayload.sub;
+    console.log("ID: " + responsePayload.sub);
+    console.log('Full Name: ' + responsePayload.name);
+    console.log('Given Name: ' + responsePayload.given_name);
+    console.log('Family Name: ' + responsePayload.family_name);
+    console.log("Image URL: " + responsePayload.picture);
+    console.log("Email: " + responsePayload.email);
+
+    Profile.name= responsePayload.name
+    Profile.email= responsePayload.email
+    Profile.ID=response.credential
+    Profile.url= responsePayload.picture 
+       // const url = "_ah/api/myApi/v1/Hello"+'?access_token=' + response.credential
+       // fetch(url).then(response => response.text()).then(data => document.getElementById('toto').innerHTML = data)
+    m.route.set("/secret")
+}
+
+var Profile={
+  name:"",
+  email:"",
+  ID:"",
+  url:"",
+  nextToken:"",
+  list:[],
+  view: function(){
+	return m('div', {class:'container'}, [
+  	  m("h1", {class: 'title'}, "name:"+Profile.name),
+	  m("h2", {class: 'subtitle'}, "email:"+Profile.email),
+	  m("img",{"src":Profile.url}),
+	  m("button",{class:"button", onclick: function(e) { Profile.loadList()}},"Msgs"),
+	  m("button",{class:"button", onclick: function(e) { Profile.postMessage()}},"Post Dummy"),
+	  m("div",m(PostView,{profile: Profile}))
+	])
+  },
+
+  loadList: function() {
+      return m.request({
+          method: "GET",
+          url: "_ah/api/myApi/v1/collectionresponse_entity"+'?access_token=' + encodeURIComponent(Profile.ID)
+          })
+      .then(function(result) {
+      	console.log("load_list:",result)
+      	Profile.list=result.items
+          if ('nextPageToken' in result) {
+	        	Profile.nextToken= result.nextPageToken
+          } else {
+          	Profile.nextToken=""
+          }})
+  },  
+
+  
+    next: function() {
+      return m.request({
+          method: "GET",
+          url: "_ah/api/myApi/v1/collectionresponse_entity",
+          params: {
+        	  'next':Profile.nextToken,
+        	  'access_token': encodeURIComponent(Profile.ID)
+          }
+       })
+      .then(function(result) {
+      	console.log("next:",result)
+      	result.items.map(function(item){Profile.list.push(item)})
+          if ('nextPageToken' in result) {
+	        	Profile.nextToken= result.nextPageToken
+          } else {
+          	Profile.nextToken=""
+          }})
+        }
+    }
+
+var Login = {
+  view: function() {
+     return m('div', {class:'container'}, [
+      m("h1", {class: 'title'}, 'The TinyGram Post'),
+      m("div", {
+             "id":"g_id_onload",
+             "data-client_id":"341290679446-irfe3ee6hljh1mngpr2vsiadjep34v0b.apps.googleusercontent.com",
+           "data-callback":"handleCredentialResponse"}),
+      m("div", {
+             "class":"g_id_signin",
+             "data-type":"standard"}),
+      ])
+    }
+}
+
+m.route(document.body, "/secret", {
+  "/secret": { onmatch: function() {
+            	if (Profile.ID=="") {m.route.set("/login")}
+            	else return Profile
+        		}},
+  "/login": Login
+}) 
+/******************************/
+    function signOut() {
+    // Réinitialisez l'état de l'utilisateur connecté dans votre application
+    userConnecter.id = null;
+    userConnecter.prenom = "";
+   // document.getElementById("login_google").classList.remove('hide');
+    document.getElementById("logout_google").classList.add('hide');
+
+    // Optionnel : Redirigez pour une déconnexion complète de Google
+    // Ceci est facultatif et doit être utilisé selon les besoins de votre application
+    var logoutUrl = 'https://accounts.google.com/Logout';
+    window.location.href = logoutUrl;
+}
+
+
+
+
+    
+// function signOut() {
+//   var auth2 = gapi.auth2.getAuthInstance();
+//   auth2.signOut().then(function () {
+// 	  userConnecter.id = null;
+// 	  userConnecter.prenom = "";
+// 	  document.getElementById("login_google").classList.remove('hide');
+// 	  document.getElementById("logout_google").classList.add('hide');
+// 	  //startNotification('Vous êtes deconnecté',"is-primary","notification");
+//    // console.log('Vous êtes deconnecté');
+//   });
+// }
+
+
 function ShowCreateAndUpdatePetitionView(idItem=null,index=null){
 	if(idItem==null){
 		Api_CrudPetition.item = getPetitionObject();
@@ -658,7 +778,7 @@ var infoPetitionView = {
 					  [
 					    m("div", {"class":"tile is-parent"},
 					      [
-					        m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://www.mesopinions.com/public/img/petition/petition-img-101652-fr.png"}),
+					        m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://france3-regions.francetvinfo.fr/image/dLZAqbKdyjwk7UbXs40zw-c2y9o/1200x675/regions/2022/10/14/63497ac6de5b8_maxnewsworldfive436847.jpg"}),
 					        m("div", {"class":"tile is-child box"},
 					          [
 					            m("p", {"class":"title"}, API_infoPetition.item.titre ),
@@ -732,7 +852,7 @@ var DetailPetitionView = {
 						              [
 						                m("div", {"class":"tile is-parent"},
 						                  [
-						                    m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://www.mesopinions.com/public/img/petition/petition-img-101652-fr.png"}),
+						                    m("img", {"class":"img40","src":validURL(API_infoPetition.item.img_url)?API_infoPetition.item.img_url:"https://france3-regions.francetvinfo.fr/image/dLZAqbKdyjwk7UbXs40zw-c2y9o/1200x675/regions/2022/10/14/63497ac6de5b8_maxnewsworldfive436847.jpg"}),
 						                    m("div", {"class":"tile is-child box"},
 						                      [
 						                        m("p", {"class":"title"}, API_infoPetition.item.titre),
@@ -993,7 +1113,7 @@ var CreateAndUpdatePetitionView = {
 var Header = {
 		view : function(){
 			
-			return [m("script", {"src":"https://apis.google.com/js/platform.js","async":"async","defer":"defer"}),
+			return [m("script", {"src":"https://accounts.google.com/gsi/client","async":"async","defer":"defer"}),
 				m("nav", {"class":"navbar is-fixed-top box","role":"navigation","aria-label":"main navigation"},
 					  [
 						    m("div", {"class":"navbar-brand"},
@@ -1011,10 +1131,11 @@ var Header = {
 						            m("a", {onclick: function(e) {
 						            	if (userConnecter.id==null){
 						                
-						                	startNotification("Vous devez être connecté pour lancer une petition");
+						                	startNotification("Vous devez être connecté  une petition");
 						                } else{
 						                	ShowCreateAndUpdatePetitionView();
 						                }
+                                    
 						            	
 						            },"class":"navbar-item fw-500"},  " Lancer une petition "),
 						            m(m.route.Link, {href: "/MyPetitionCreated",onclick: function(e) {
@@ -1041,8 +1162,11 @@ var Header = {
 						            			),
 						            	m(m.route.Link, {href: "/SearchPetition",onclick: function(e) {
 							            	currentURL = '/SearchPetition';
-							            }, "class":"button is-primary" }, m("i", {"class":"fas fa-search"})),
-						                m("div", {"id":"login_google","class":"g-signin2","data-onsuccess":"onSignIn"}),
+							            }, "class":"search input" }, m("i", {"class":"fas fa-search"})),
+                                       m("div", {"id":"g_id_onload","data-client_id":"341290679446-irfe3ee6hljh1mngpr2vsiadjep34v0b.apps.googleusercontent.com","data-callback":"handleCredentialResponse"}),
+                                        m("div", {"class":"g_id_signin","data-type":"standard"}),
+                                     
+                                        
 						                m("a", {"id":"logout_google",class: userConnecter.id==null?"button is-light hide":"button is-light",onclick: function(e) {
 						                	signOut();
 							            }}, 
@@ -1126,7 +1250,7 @@ var TabSearchPetition = {
 			   	    [
 			   	      m("p", {"class":"control txt-center"},
 			   	        [
-			   	          m("input", {"class":"input is-primary txt-center w-60 ","type":"text","placeholder":"Indiquez le titre ou l'un des tags de la petition recherchée",
+			   	          m("input", {"class":"search input txt-center w-60 ","type":"text","placeholder":"Indiquez le titre ou l'un des tags de la petition recherchée",
 		                        oninput: function (e) {API_SearchPetition.key_search = e.target.value},
 		                        value: API_SearchPetition.key_search
 		                    }),
@@ -1143,7 +1267,7 @@ var TabSearchPetition = {
 			   	          )
 			   	        ]
 			   	      ),
-			   	      m("div", {"class":"tabs is-toggle is-toggle-rounded"}, 
+			   	      m("div", {"class":"tabs is-toggle-rounded"}, 
 			   	        m("ul",
 			   	          [
 			   	            m("li", {class:API_SearchPetition.type=="tag"?"is-active":""}, 
@@ -1218,7 +1342,7 @@ var cardPetition = {
 			   		  [
 			   		    m("div", {"class":"card-content"},
 			   		      [
-			   		        m("img", {"src":validURL(item.properties.img_url)?item.properties.img_url:"https://www.mesopinions.com/public/img/petition/petition-img-101652-fr.png"}),
+			   		        m("img", {"src":validURL(item.properties.img_url)?item.properties.img_url:"https://france3-regions.francetvinfo.fr/image/dLZAqbKdyjwk7UbXs40zw-c2y9o/1200x675/regions/2022/10/14/63497ac6de5b8_maxnewsworldfive436847.jpg"}),
 			   		        m("p", {"class":"title"}, item.properties.titre),
 			   		        m("p", {"class":"subtitle truncate"}, item.properties.description ),
 			   		        m("progress", {"class":"progress is-success","value":pourcent,"max":"100"}),
