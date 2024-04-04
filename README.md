@@ -52,7 +52,7 @@ En utilisant l'icône de recherche, il est possible d'effectuer une recherche de
 ## Aperçu de l’application
 </br>
 <li>Page d'accueil / Les pétitions récentes / Les pétitions plus signées</li></br>
-<img width="1437" alt="Page d'accueil" src="">
+<img width="1437" alt="Page d'accueil" src="/pageweb">
 
 ## Conclusion
 
