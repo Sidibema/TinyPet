@@ -25,9 +25,8 @@
   <system-properties>
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
   </system-properties>
-<!-- [START env_variables] -->
+
     <env-variables>
-<!--         <env-var name="ENDPOINTS_SERVICE_NAME" value="${endpoints.project.id}.appspot.com" /> -->
         <env-var name="ENDPOINTS_SERVICE_NAME" value="tinypetvimaox.appspot.com" />
 
     </env-variables>
