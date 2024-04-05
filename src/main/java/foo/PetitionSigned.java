@@ -49,7 +49,7 @@ public class PetitionSigned extends HttpServlet {
 	Query q = new Query("Petition")
 			.setFilter(
 					new FilterPredicate("signataire", FilterOperator.EQUAL, "id8_6")
-					); //.addSort("date", SortDirection.ASCENDING)
+					); 
 	
 	q.setKeysOnly();
 	PreparedQuery pq = datastore.prepare(q);
