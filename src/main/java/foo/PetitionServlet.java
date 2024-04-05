@@ -21,10 +21,6 @@ public class PetitionServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        // Set security headers
-       // response.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-       // response.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-
         response.setHeader("Access-Control-Allow-Origin", "https://projetcloudfinal-417911.ew.r.appspot.com");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
