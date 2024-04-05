@@ -107,8 +107,6 @@ function UpdatedNbSignatureInView(){
 }
 
 function scrollToTop() {
-	//startNotification("Bienvenue, A");
-	//window.scrollTo({top: 0, behavior: 'smooth'});
 	window.scrollTo({top: 0});
 	}
 	
@@ -144,9 +142,6 @@ function handleCredentialResponse(response) {
     Profile.email= responsePayload.email
     Profile.ID=response.credential
     Profile.url= responsePayload.picture 
-       // const url = "_ah/api/myApi/v1/Hello"+'?access_token=' + response.credential
-       // fetch(url).then(response => response.text()).then(data => document.getElementById('toto').innerHTML = data)
-    m.route.set("/secret")
 }
 
 var Profile={
@@ -238,22 +233,6 @@ m.route(document.body, "/secret", {
     var logoutUrl = 'https://accounts.google.com/Logout';
     window.location.href = logoutUrl;
 }
-
-
-
-
-    
-// function signOut() {
-//   var auth2 = gapi.auth2.getAuthInstance();
-//   auth2.signOut().then(function () {
-// 	  userConnecter.id = null;
-// 	  userConnecter.prenom = "";
-// 	  document.getElementById("login_google").classList.remove('hide');
-// 	  document.getElementById("logout_google").classList.add('hide');
-// 	  //startNotification('Vous êtes deconnecté',"is-primary","notification");
-//    // console.log('Vous êtes deconnecté');
-//   });
-// }
 
 
 function ShowCreateAndUpdatePetitionView(idItem=null,index=null){
@@ -411,10 +390,7 @@ var Top10SignedPetitions = {
 	        		Top10SignedPetitions.previous.pop();
 	        		Top10SignedPetitions.next.pop();
 	        	}
-	        	
-	            //if (Top10NewPetitions.previous[Top10NewPetitions.previous.length - 1] == last){
-	            	//Top10NewPetitions.previous=0;
-	            //}
+	        
 	        	console.log("got:",result.items);
 	        	console.log("got:",result.items[result.items.length - 1].key.name);
 	        	console.log(Top10SignedPetitions.previous);
