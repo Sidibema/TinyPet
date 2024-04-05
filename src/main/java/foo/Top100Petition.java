@@ -59,50 +59,7 @@ public class Top100Petition extends HttpServlet {
 	
 	}
 }
-
-	// Méthode pour récuperer les signataires deja presents puis en rajouter, à voir ac le prof si cest necessaire 
-
-	//Query u = new Query("User");
-	// ajouter une transcation read only
-	//u.addProjection(new PropertyProjection("id", String.class));
-	/*
-	PreparedQuery uq = datastore.prepare(u);
-	List<Entity> users = uq.asList(FetchOptions.Builder.withLimit(50));
-			
-		
-	response.getWriter().print("<li> petitions:" + petitions.size() + "<br>");
-	response.getWriter().print("<li> users:" + users.size() + "<br>");
 	
-	//int nbSignatures = 2;
-    for (int i=0; i<users.size(); i++) {
-    	for (int j=0; j<petitions.size(); j+=2) {
-    		ArrayList<String> listSignatairePet1 = (ArrayList<String>) petitions.get(j).getProperty("signataire");
-    		ArrayList<String> listSignatairePet2 = (ArrayList<String>) petitions.get(j+1).getProperty("signataire");
-
-    		HashSet<String> hashListSignataire1 = new HashSet<String>(listSignatairePet1);
-    		HashSet<String> hashListSignataire2 = new HashSet<String>(listSignatairePet2);
-
-    		for (int z=0; z<nbSignatures; i++) {
-    			hashListSignataire1.add(users.get(i).toString());
-    			hashListSignataire2.add(users.get(i).toString());
-
-    		}
-    		if (petitions.size() % 10 == 0) {
-    			nbSignatures *= 2 ;
-    		}
-    		response.getWriter().print("<li>" + hashListSignataire1 + "<li>");
-    		response.getWriter().print("<li>" + hashListSignataire2 + "<li>");
-
-    		petitions.get(j).setProperty("signataire", hashListSignataire1);
-    		petitions.get(j+1).setProperty("signataire", hashListSignataire2);
-
-    		datastore.put(petitions.get(j));
-    		datastore.put(petitions.get(j+1));
-
-    		response.getWriter().print("<li> petition:" + petitions.get(j).getKey() + "signé par " + users.get(i).getKey());
-    		response.getWriter().print("<li> petition:" + petitions.get(j+1).getKey() + "signé par " + users.get(i).getKey());
-    		}
-    	}*/
 		
 	
 
