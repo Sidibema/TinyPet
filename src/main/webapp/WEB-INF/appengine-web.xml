@@ -31,5 +31,5 @@
         <env-var name="ENDPOINTS_SERVICE_NAME" value="tinypetvimaox.appspot.com" />
 
     </env-variables>
-    <!-- [END env_variables] -->
+ 
 </appengine-web-app>
